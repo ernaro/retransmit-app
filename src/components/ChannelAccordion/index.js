@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
@@ -7,9 +8,16 @@ import Button from "@mui/material/Button";
 import Accordion from "@mui/material/Accordion";
 
 import Link from "../Link";
+import { deleteChannelById } from "../../service/localApiService";
 
 
 const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, start, stop }) => {
+  const router = useRouter();
+  const handleDelete = id => {
+    deleteChannelById(id)
+      .then(() => router.reload());
+  }
+
   return (
     <Accordion>
       <AccordionSummary expandIcon={ <ExpandMoreIcon/> }>
@@ -45,14 +53,21 @@ const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, start, st
           </Button>
           <Button
             component={Link}
+            sx={ { marginRight: '1rem' } }
             href={`/channels/${id}`}
             variant="outlined"
             color="warning"
           >
             Edit
           </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => handleDelete(id)}
+          >
+            Delete
+          </Button>
         </Box>
-
       </AccordionDetails>
     </Accordion>
   )

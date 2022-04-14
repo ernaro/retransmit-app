@@ -5,8 +5,12 @@ export default async function handler(req, res) {
 
   switch (method) {
     case 'POST':
-      await stopChannelById(id);
-      res.status(200).end();
+      try {
+        await stopChannelById(id);
+        res.status(200).end();
+      } catch (error) {
+        res.status(404).end();
+      }
       break;
     default:
       res.setHeader('Allow', ['POST']);
