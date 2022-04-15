@@ -8,23 +8,41 @@ import Paper from "@mui/material/Paper";
 import Link from "../components/Link";
 import ChannelAccordion from "../components/ChannelAccordion";
 import ChannelSnackbar from "../components/ChannelSnackbar";
-import { startChannelById, stopChannelById } from "../service/localApiService";
-import { axiosFetcher } from "../service/localApiService";
+import ChannelDeleteDialog from "../components/ChannelDeleteDialog";
+import { startChannelById, stopChannelById, deleteChannelById } from "../service/apiService";
+import { axiosFetcher } from "../service/apiService";
 
 
 export default function Index() {
   const [open, setOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [channelToDelete, setChannelToDelete] = useState({})
   const { data: channels, error } = useSWR("/channels", axiosFetcher, { refreshInterval: 1000 })
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const handleDialogOpen = (id, name) => {
+    setDialogOpen(true);
+    setChannelToDelete({id, name});
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+    setChannelToDelete({});
+  }
+
   const handleChannelStart = (id) => {
     startChannelById(id).then(() => setOpen(true));
   }
   const handleChannelStop = (id) => {
     stopChannelById(id).then(() => setOpen(true));
+  }
+
+  const handleDeleteChannel = () => {
+    deleteChannelById(channelToDelete.id)
+      .then(() => handleDialogClose());
   }
 
   if (error) return <div>failed to load</div>
@@ -52,14 +70,21 @@ export default function Index() {
             input={ channel.input }
             output={ channel.output }
             enabled={ channel.enabled }
-            start={ handleChannelStart }
-            stop={ handleChannelStop }
+            startChannel={ handleChannelStart }
+            stopChannel={ handleChannelStop }
+            openDeleteDialog={ handleDialogOpen }
           />
         )) }
       </Paper>
       <ChannelSnackbar
         open={ open }
         onClose={ handleClose }
+      />
+      <ChannelDeleteDialog
+        open={ dialogOpen }
+        handleClose={ handleDialogClose }
+        name={ channelToDelete.name }
+        handleDelete={ handleDeleteChannel }
       />
     </Container>
   );

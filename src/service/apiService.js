@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const axios = Axios.create({
-  baseURL: 'http://localhost:8080/api/v1',
+  baseURL: 'http://192.168.200.15/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
@@ -9,9 +9,7 @@ const axios = Axios.create({
   responseType: 'json'
 })
 
-export const getAllChannels = () => {
-  return axios.get("/channels");
-}
+export const axiosFetcher = url => axios.get(url).then(res => res.data);
 
 export const getChannelById = (id) => {
   return axios.get(`/channels/${id}`);
@@ -33,7 +31,6 @@ export const startChannelById = (id) => axios.post(`/channels/${id}/start`);
 
 export const stopChannelById = (id) => axios.post(`/channels/${id}/stop`);
 
-
-export const getServerInterfaces = () => {
-  return axios.get("/interfaces");
+export const getServerInfo = () => {
+  return axios.get("/server-info");
 }

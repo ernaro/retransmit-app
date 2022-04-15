@@ -1,7 +1,7 @@
 import Container from "@mui/material/Container";
 import ChannelForm from "../../components/ChannelForm";
 import { useRouter } from "next/router";
-import { createChannel } from "../../service/localApiService";
+import { createChannel } from "../../service/apiService";
 
 export default function AddChannel() {
   const router = useRouter();

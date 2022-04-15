@@ -2,8 +2,7 @@ import { useRouter } from "next/router";
 import Container from "@mui/material/Container";
 
 import ChannelForm from "../../components/ChannelForm";
-import { getChannelById } from "../../service/externalApiService";
-import { updateChannelById } from "../../service/localApiService";
+import { updateChannelById, getChannelById } from "../../service/apiService";
 
 export default function EditChannel({ channel }) {
   const router = useRouter();

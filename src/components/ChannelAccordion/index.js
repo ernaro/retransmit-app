@@ -8,16 +8,10 @@ import Button from "@mui/material/Button";
 import Accordion from "@mui/material/Accordion";
 
 import Link from "../Link";
-import { deleteChannelById } from "../../service/localApiService";
+import { deleteChannelById } from "../../service/apiService";
 
 
-const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, start, stop }) => {
-  const router = useRouter();
-  const handleDelete = id => {
-    deleteChannelById(id)
-      .then(() => router.reload());
-  }
-
+const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, startChannel, stopChannel, openDeleteDialog }) => {
   return (
     <Accordion>
       <AccordionSummary expandIcon={ <ExpandMoreIcon/> }>
@@ -38,7 +32,7 @@ const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, start, st
             color="success"
             disabled={ enabled }
             sx={ { marginRight: '1rem' } }
-            onClick={ () => start(id) }
+            onClick={ () => startChannel(id) }
           >
             Start
           </Button>
@@ -47,12 +41,12 @@ const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, start, st
             color="error"
             disabled={ !enabled }
             sx={ { mr: "auto" } }
-            onClick={ () => stop(id) }
+            onClick={ () => stopChannel(id) }
           >
             Stop
           </Button>
           <Button
-            component={Link}
+            component={ Link }
             sx={ { marginRight: '1rem' } }
             href={`/channels/${id}`}
             variant="outlined"
@@ -63,7 +57,7 @@ const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, start, st
           <Button
             variant="outlined"
             color="error"
-            onClick={() => handleDelete(id)}
+            onClick={ () => openDeleteDialog(id, name) }
           >
             Delete
           </Button>
