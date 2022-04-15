@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
 import Link from "../components/Link";
+import Error from "../components/Error";
+import Loader from "../components/Loader";
 import ChannelAccordion from "../components/ChannelAccordion";
 import ChannelSnackbar from "../components/ChannelSnackbar";
 import ChannelDeleteDialog from "../components/ChannelDeleteDialog";
@@ -45,8 +47,8 @@ export default function Index() {
       .then(() => handleDialogClose());
   }
 
-  if (error) return <div>failed to load</div>
-  if (!channels) return <div>loading...</div>
+  if (error) return <Error message="Failed to load data!" />
+  if (!channels) return <Loader />
 
   return (
     <Container maxWidth="md" sx={ { flexGrow: 1, mt: 2 } }>

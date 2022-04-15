@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
-import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 
-const Loader = () => {
+const Error = ({ message }) => {
   return(
     <Grid
       container
@@ -11,10 +11,12 @@ const Loader = () => {
       sx={{height: "30rem"}}
     >
       <Grid item>
-        <CircularProgress color="success" size={100} />
+        <Typography variant="h6">
+          { message }
+        </Typography>
       </Grid>
     </Grid>
   )
 }
 
-export default Loader;
+export default Error;
