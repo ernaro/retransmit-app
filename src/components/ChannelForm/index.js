@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
 import { useFormik } from 'formik';
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
@@ -7,12 +5,8 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Snackbar from "@mui/material/Snackbar";
-import SnackbarContent from "@mui/material/SnackbarContent";
 import * as Yup from 'yup';
-
 import Link from "../Link";
-import { createChannel, updateChannelById } from "../../service/localApiService";
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required!"),
@@ -23,10 +17,16 @@ const validationSchema = Yup.object({
   enabled: Yup.boolean().required("Status is required!"),
 })
 
-const ChannelForm = ({ channel }) => {
-  const router = useRouter();
-  const [ open, setOpen ] = useState(false);
-  const [ message, setMessage ] = useState('')
+const ChannelForm = ({
+    name = '',
+    serviceType = 'digital_tv',
+    bitrate = '',
+    input = '',
+    output = '',
+    enabled = false,
+    formTitle,
+    submitHandler
+}) => {
   const {
     handleSubmit,
     handleChange,
@@ -35,52 +35,24 @@ const ChannelForm = ({ channel }) => {
     errors,
     isSubmitting,
     isValidating,
-    setSubmitting
   } = useFormik({
     initialValues: {
-      id: channel?.id ?? null,
-      name: channel?.name ?? "",
-      serviceType: channel?.serviceType ?? "digital_tv",
-      bitrate: channel?.bitrate ?? "",
-      input: channel?.input ?? "",
-      output: channel?.output ?? "",
-      enabled: channel?.enabled ?? false,
+      name: name,
+      serviceType: serviceType,
+      bitrate: bitrate,
+      input: input,
+      output: output,
+      enabled: enabled,
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      if (values.id !== null) {
-        updateChannelById(values.id, values)
-          .then(() => router.replace('/'))
-          .catch(err => {
-            setSubmitting(false);
-            setMessage(err.response.data.message);
-            setOpen(true);
-          });
-      } else {
-        createChannel(values)
-          .then(() => router.replace('/'))
-          .catch(err => {
-            setSubmitting(false);
-            setMessage(err.response.data.message);
-            setOpen(true);
-          });
-      }
-    },
+    onSubmit: submitHandler,
   });
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-    setMessage('')
-  };
-
-  return(
-    <Paper sx={{padding: '1rem'}}>
-      <Typography component="div" variant="h4" textAlign="center">Add channel</Typography>
-      <Box component="form" onSubmit={handleSubmit} >
+  return (
+    <Paper sx={ { padding: '1rem' } }>
+      <Typography component="div" variant="h4" textAlign="center">{ formTitle }</Typography>
+      <Box component="form" onSubmit={ handleSubmit }>
         <TextField
           name="name"
           label="Name:"
@@ -90,7 +62,7 @@ const ChannelForm = ({ channel }) => {
           value={ values.name }
           onChange={ handleChange }
           error={ touched.name && Boolean(errors.name) }
-          helperText={touched.name && errors.name}
+          helperText={ touched.name && errors.name }
         />
         <TextField
           name="serviceType"
@@ -102,7 +74,7 @@ const ChannelForm = ({ channel }) => {
           value={ values.serviceType }
           onChange={ handleChange }
           error={ touched.serviceType && Boolean(errors.serviceType) }
-          helperText={touched.serviceType && errors.serviceType}
+          helperText={ touched.serviceType && errors.serviceType }
         >
           <MenuItem value="digital_tv">MPEG-2 SD</MenuItem>
           <MenuItem value="advanced_codec_digital_sdtv">MPEG-4 SD</MenuItem>
@@ -117,7 +89,7 @@ const ChannelForm = ({ channel }) => {
           value={ values.bitrate }
           onChange={ handleChange }
           error={ touched.bitrate && Boolean(errors.bitrate) }
-          helperText={touched.bitrate && errors.bitrate}
+          helperText={ touched.bitrate && errors.bitrate }
         />
         <TextField
           name="input"
@@ -128,7 +100,7 @@ const ChannelForm = ({ channel }) => {
           value={ values.input }
           onChange={ handleChange }
           error={ touched.input && Boolean(errors.input) }
-          helperText={touched.input && errors.input}
+          helperText={ touched.input && errors.input }
         />
         <TextField
           name="output"
@@ -139,7 +111,7 @@ const ChannelForm = ({ channel }) => {
           value={ values.output }
           onChange={ handleChange }
           error={ touched.output && Boolean(errors.output) }
-          helperText={touched.output && errors.output}
+          helperText={ touched.output && errors.output }
         />
         <TextField
           name="enabled"
@@ -151,13 +123,13 @@ const ChannelForm = ({ channel }) => {
           value={ values.enabled }
           onChange={ handleChange }
           error={ touched.enabled && Boolean(errors.enabled) }
-          helperText={touched.enabled && errors.enabled}
+          helperText={ touched.enabled && errors.enabled }
         >
           <MenuItem value={ true }>Enabled</MenuItem>
           <MenuItem value={ false }>Disabled</MenuItem>
         </TextField>
         <Button
-          sx={{mt: 2}}
+          sx={ { mt: 2 } }
           fullWidth
           variant="outlined"
           color="success"
@@ -167,9 +139,9 @@ const ChannelForm = ({ channel }) => {
           Save
         </Button>
         <Button
-          sx={{mt: 2}}
+          sx={ { mt: 2 } }
           fullWidth
-          component={Link}
+          component={ Link }
           href="/"
           variant="outlined"
           color="error"
@@ -177,19 +149,6 @@ const ChannelForm = ({ channel }) => {
           Cancel
         </Button>
       </Box>
-      <Snackbar
-        open={ open }
-        autoHideDuration={ 6000 }
-        onClose={ handleClose }
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right'
-        }}
-      >
-        <SnackbarContent
-          message={ message }
-        />
-      </Snackbar>
     </Paper>
   )
 }

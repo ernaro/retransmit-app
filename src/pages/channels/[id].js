@@ -1,11 +1,31 @@
+import { useRouter } from "next/router";
 import Container from "@mui/material/Container";
-import { getChannelById } from "../../service/externalApiService";
+
 import ChannelForm from "../../components/ChannelForm";
+import { getChannelById } from "../../service/externalApiService";
+import { updateChannelById } from "../../service/localApiService";
 
 export default function EditChannel({ channel }) {
+  const router = useRouter();
+
+  const handleChannelSubmit = (values) => {
+    updateChannelById(channel.id, values)
+      .then(() => router.replace('/'))
+      .catch(err => console.log(err))
+  }
+
   return(
     <Container maxWidth="sm" sx={ { mt: 2 } }>
-      <ChannelForm channel={ channel } />
+      <ChannelForm
+        formTitle="Edit channel"
+        submitHandler={ handleChannelSubmit }
+        name={channel.name}
+        bitrate={channel.bitrate}
+        serviceType={channel.serviceType}
+        input={channel.input}
+        output={channel.output}
+        enabled={channel.enabled}
+      />
     </Container>
   )
 }
