@@ -55,7 +55,7 @@ const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, startChan
             Edit
           </Button>
           <Button
-            variant="outlined"
+            variant="text"
             color="error"
             onClick={ () => openDeleteDialog(id, name) }
           >
