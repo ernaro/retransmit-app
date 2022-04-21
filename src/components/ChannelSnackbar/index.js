@@ -1,7 +1,7 @@
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
-const ChannelSnackbar = ({open, onClose}) => (
+const ChannelSnackbar = ({open, onClose, message}) => (
   <Snackbar
     open={open}
     autoHideDuration={2000}
@@ -12,7 +12,7 @@ const ChannelSnackbar = ({open, onClose}) => (
       onClose={onClose}
       severity="success" sx={{ width: '100%' }}
     >
-      Success!
+      { message }
     </Alert>
   </Snackbar>
 )

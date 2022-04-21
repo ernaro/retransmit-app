@@ -1,28 +1,37 @@
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import * as Yup from 'yup';
 import Link from "../Link";
 
 const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required!"),
+  serviceName: Yup.string().required("Name is required!"),
+  providerName: Yup.string().required("Provider name is required!"),
   serviceType: Yup.string().required("Service type is is required!"),
-  bitrate: Yup.string().required("Bitrate is required!"),
-  input: Yup.string().required("Input Url is required!"),
-  output: Yup.string().required("Output Url is required!"),
+  serviceId: Yup.number().required("Service ID is required!"),
+  pmtPid: Yup.number().required("PMT pid is required!"),
+  componentsStartPid: Yup.number().required("Components start pid is required!"),
+  bitrate: Yup.number().required("Bitrate is required!"),
+  inputUrl: Yup.string().required("Input Url is required!"),
+  // outputInterface: Yup.string().required("Please choose an output interface!"),
+  outputUrl: Yup.string().required("Output Url is required!"),
   enabled: Yup.boolean().required("Status is required!"),
 })
 
 const ChannelForm = ({
-    name = '',
+    serviceName = '',
+    providerName = '',
     serviceType = 'digital_tv',
-    bitrate = '',
-    input = '',
-    output = '',
+    serviceId = 1,
+    pmtPid = 32,
+    componentsStartPid = 321,
+    bitrate = 6000000,
+    inputUrl = '',
+    outputUrl = '',
     enabled = false,
     formTitle,
     submitHandler
@@ -37,11 +46,16 @@ const ChannelForm = ({
     isValidating,
   } = useFormik({
     initialValues: {
-      name: name,
+      serviceName: serviceName,
+      providerName: providerName,
       serviceType: serviceType,
+      serviceId: serviceId,
+      pmtPid: pmtPid,
+      componentsStartPid: componentsStartPid,
       bitrate: bitrate,
-      input: input,
-      output: output,
+      inputUrl: inputUrl,
+      // outputInterface: '',
+      outputUrl: outputUrl,
       enabled: enabled,
     },
     enableReinitialize: true,
@@ -54,19 +68,30 @@ const ChannelForm = ({
       <Typography component="div" variant="h4" textAlign="center">{ formTitle }</Typography>
       <Box component="form" onSubmit={ handleSubmit }>
         <TextField
-          name="name"
-          label="Name:"
+          name="serviceName"
+          label="Service Name:"
           margin="normal"
           variant="standard"
           fullWidth
-          value={ values.name }
+          value={ values.serviceName }
           onChange={ handleChange }
-          error={ touched.name && Boolean(errors.name) }
-          helperText={ touched.name && errors.name }
+          error={ touched.serviceName && Boolean(errors.serviceName) }
+          helperText={ touched.serviceName && errors.serviceName }
+        />
+        <TextField
+          name="providerName"
+          label="Provider Name:"
+          margin="normal"
+          variant="standard"
+          fullWidth
+          value={ values.providerName }
+          onChange={ handleChange }
+          error={ touched.providerName && Boolean(errors.providerName) }
+          helperText={ touched.providerName && errors.providerName }
         />
         <TextField
           name="serviceType"
-          label="ServiceType:"
+          label="Service Type:"
           margin="normal"
           variant="standard"
           select
@@ -81,7 +106,44 @@ const ChannelForm = ({
           <MenuItem value="advanced_codec_digital_hdtv">MPEG-4 HD</MenuItem>
         </TextField>
         <TextField
+          name="serviceId"
+          type="number"
+          label="Service Id:"
+          margin="normal"
+          variant="standard"
+          fullWidth
+          value={ values.serviceId }
+          onChange={ handleChange }
+          error={ touched.serviceId && Boolean(errors.serviceId) }
+          helperText={ touched.serviceId && errors.serviceId }
+        />
+        <TextField
+          name="pmtPid"
+          type="number"
+          label="PMT Pid:"
+          margin="normal"
+          variant="standard"
+          fullWidth
+          value={ values.pmtPid }
+          onChange={ handleChange }
+          error={ touched.pmtPid && Boolean(errors.pmtPid) }
+          helperText={ touched.pmtPid && errors.pmtPid }
+        />
+        <TextField
+          name="componentsStartPid"
+          type="number"
+          label="Components Start Pid:"
+          margin="normal"
+          variant="standard"
+          fullWidth
+          value={ values.componentsStartPid }
+          onChange={ handleChange }
+          error={ touched.componentsStartPid && Boolean(errors.componentsStartPid) }
+          helperText={ touched.componentsStartPid && errors.componentsStartPid }
+        />
+        <TextField
           name="bitrate"
+          type="number"
           label="Bitrate:"
           margin="normal"
           variant="standard"
@@ -92,26 +154,26 @@ const ChannelForm = ({
           helperText={ touched.bitrate && errors.bitrate }
         />
         <TextField
-          name="input"
-          label="Input:"
+          name="inputUrl"
+          label="Input Url:"
           margin="normal"
           variant="standard"
           fullWidth
-          value={ values.input }
+          value={ values.inputUrl }
           onChange={ handleChange }
-          error={ touched.input && Boolean(errors.input) }
-          helperText={ touched.input && errors.input }
+          error={ touched.inputUrl && Boolean(errors.inputUrl) }
+          helperText={ touched.inputUrl && errors.inputUrl }
         />
         <TextField
-          name="output"
-          label="Output:"
+          name="outputUrl"
+          label="Output Url:"
           margin="normal"
           variant="standard"
           fullWidth
-          value={ values.output }
+          value={ values.outputUrl }
           onChange={ handleChange }
-          error={ touched.output && Boolean(errors.output) }
-          helperText={ touched.output && errors.output }
+          error={ touched.outputUrl && Boolean(errors.outputUrl) }
+          helperText={ touched.outputUrl && errors.outputUrl }
         />
         <TextField
           name="enabled"
@@ -134,7 +196,7 @@ const ChannelForm = ({
           variant="outlined"
           color="success"
           type="submit"
-          disabled={ isSubmitting || isValidating }
+          disabled={ isValidating }
         >
           Save
         </Button>

@@ -8,15 +8,14 @@ import Button from "@mui/material/Button";
 import Accordion from "@mui/material/Accordion";
 
 import Link from "../Link";
-import { deleteChannelById } from "../../service/apiService";
 
 
-const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, startChannel, stopChannel, openDeleteDialog }) => {
+const ChannelAccordion = ({ id, serviceName, bitrate, inputUrl, outputUrl, enabled, startChannel, stopChannel, openDeleteDialog }) => {
   return (
     <Accordion>
       <AccordionSummary expandIcon={ <ExpandMoreIcon/> }>
         <Typography component="div" sx={ { flexGrow: 1 } }>
-          { name }
+          { serviceName }
         </Typography>
         <Typography component="div" sx={ { marginRight: '1rem' } }>
           Status: { enabled ? "On" : "Off" }
@@ -24,8 +23,8 @@ const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, startChan
       </AccordionSummary>
       <AccordionDetails>
         <p><b>Bitrate: </b>{ bitrate } Bit/s</p>
-        <p style={ { overflow: 'hidden', textOverflow: "ellipsis" } }><b>Input: </b>{ input }</p>
-        <p><b>Output: </b>{ output }</p>
+        <p style={ { overflow: 'hidden', textOverflow: "ellipsis" } }><b>Input: </b>{ inputUrl }</p>
+        <p><b>Output: </b>{ outputUrl }</p>
         <Box sx={ { flexGrow: 1, display: "flex" } }>
           <Button
             variant="outlined"
@@ -57,7 +56,7 @@ const ChannelAccordion = ({ id, name, bitrate, input, output, enabled, startChan
           <Button
             variant="text"
             color="error"
-            onClick={ () => openDeleteDialog(id, name) }
+            onClick={ () => openDeleteDialog(id, serviceName) }
           >
             Delete
           </Button>

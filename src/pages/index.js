@@ -16,13 +16,14 @@ import { axiosFetcher } from "../service/apiService";
 
 
 export default function Index() {
-  const [open, setOpen] = useState(false);
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMessage, setSnackMessage] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [channelToDelete, setChannelToDelete] = useState({})
   const { data: channels, error } = useSWR("/channels", axiosFetcher, { refreshInterval: 1000 })
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleSnackClose = () => {
+    setSnackOpen(false);
   };
 
   const handleDialogOpen = (id, name) => {
@@ -36,10 +37,16 @@ export default function Index() {
   }
 
   const handleChannelStart = (id) => {
-    startChannelById(id).then(() => setOpen(true));
+    startChannelById(id).then(() => {
+      setSnackMessage("Channel started");
+      setSnackOpen(true);
+    });
   }
   const handleChannelStop = (id) => {
-    stopChannelById(id).then(() => setOpen(true));
+    stopChannelById(id).then(() => {
+      setSnackMessage("Channel stopped");
+      setSnackOpen(true);
+    });
   }
 
   const handleDeleteChannel = () => {
@@ -67,10 +74,10 @@ export default function Index() {
           <ChannelAccordion
             key={ channel.id }
             id={ channel.id }
-            name={ channel.name }
+            serviceName={ channel.serviceName }
             bitrate={ channel.bitrate }
-            input={ channel.input }
-            output={ channel.output }
+            inputUrl={ channel.inputUrl }
+            outputUrl={ channel.outputUrl }
             enabled={ channel.enabled }
             startChannel={ handleChannelStart }
             stopChannel={ handleChannelStop }
@@ -79,13 +86,14 @@ export default function Index() {
         )) }
       </Paper>
       <ChannelSnackbar
-        open={ open }
-        onClose={ handleClose }
+        open={ snackOpen }
+        message={ snackMessage }
+        onClose={ handleSnackClose }
       />
       <ChannelDeleteDialog
         open={ dialogOpen }
-        handleClose={ handleDialogClose }
         name={ channelToDelete.name }
+        handleClose={ handleDialogClose }
         handleDelete={ handleDeleteChannel }
       />
     </Container>
