@@ -1,6 +1,8 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import IconButton from '@mui/material/IconButton';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const NavBar = () => {
 
@@ -14,6 +16,9 @@ const NavBar = () => {
         >
           ReTransmit
         </Typography>
+        <IconButton>
+          <AccountCircle />
+        </IconButton>
       </Toolbar>
     </AppBar>
   )
