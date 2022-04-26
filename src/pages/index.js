@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import useSWR from 'swr';
 import Container from '@mui/material/Container';
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 
-import Link from "../components/Link";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 import ChannelAccordion from "../components/ChannelAccordion";
+import ChannelAccordionToolbar from "../components/ChannelAccordionToolbar";
 import ChannelSnackbar from "../components/ChannelSnackbar";
 import ChannelDeleteDialog from "../components/ChannelDeleteDialog";
 import { startChannelById, stopChannelById, deleteChannelById } from "../service/apiService";
 import { axiosFetcher } from "../service/apiService";
+
 
 
 export default function Index() {
@@ -28,7 +27,7 @@ export default function Index() {
 
   const handleDialogOpen = (id, name) => {
     setDialogOpen(true);
-    setChannelToDelete({id, name});
+    setChannelToDelete({ id, name });
   }
 
   const handleDialogClose = () => {
@@ -54,21 +53,12 @@ export default function Index() {
       .then(() => handleDialogClose());
   }
 
-  if (error) return <Error message="Failed to load data!" />
-  if (!channels) return <Loader />
+  if (error) return <Error message="Failed to load data!"/>
+  if (!channels) return <Loader/>
 
   return (
     <Container maxWidth="md" sx={ { flexGrow: 1, mt: 2 } }>
-      <Box sx={ { mb: 2 } }>
-        <Button
-          component={Link}
-          href="/channels/add"
-          variant="outlined"
-          color="success"
-        >
-          Create
-        </Button>
-      </Box>
+      <ChannelAccordionToolbar />
       <Paper>
         { channels.map(channel => (
           <ChannelAccordion

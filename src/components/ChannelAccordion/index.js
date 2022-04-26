@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
@@ -10,12 +9,34 @@ import Accordion from "@mui/material/Accordion";
 import Link from "../Link";
 
 
-const ChannelAccordion = ({ id, serviceName, bitrate, inputUrl, outputUrl, enabled, startChannel, stopChannel, openDeleteDialog }) => {
+const ChannelAccordion = ({
+  id,
+  serviceName,
+  bitrate,
+  inputUrl,
+  outputUrl,
+  enabled,
+  startChannel,
+  stopChannel,
+  openDeleteDialog
+}) => {
+  const mappingType = () => {
+    if (inputUrl.startsWith("udp") && outputUrl.startsWith("srt")) {
+      return "(udp -> srt)"
+    } else if (inputUrl.startsWith("udp") && outputUrl.startsWith("udp")) {
+      return "(udp -> udp)"
+    } else if (inputUrl.startsWith("http") && outputUrl.startsWith("udp")) {
+      return "(http/hls -> udp)"
+    } else if (inputUrl.startsWith("file") && outputUrl.startsWith("udp")) {
+      return "(file -> udp)"
+    } else return ""
+  }
+
   return (
     <Accordion>
       <AccordionSummary expandIcon={ <ExpandMoreIcon/> }>
         <Typography component="div" sx={ { flexGrow: 1 } }>
-          { serviceName }
+          { serviceName } { mappingType() }
         </Typography>
         <Typography component="div" sx={ { marginRight: '1rem' } }>
           Status: { enabled ? "On" : "Off" }
@@ -47,7 +68,7 @@ const ChannelAccordion = ({ id, serviceName, bitrate, inputUrl, outputUrl, enabl
           <Button
             component={ Link }
             sx={ { marginRight: '1rem' } }
-            href={`/channels/${id}`}
+            href={ `/channels/${ id }` }
             variant="outlined"
             color="warning"
           >

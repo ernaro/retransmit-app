@@ -7,6 +7,7 @@ import { CacheProvider } from '@emotion/react';
 import theme from '../theme';
 import createEmotionCache from '../createEmotionCache';
 import MainLayout from "../layout/MainLayout";
+import { AuthProvider } from "../context/SecurityContext";
 
 const clientSideEmotionCache = createEmotionCache();
 

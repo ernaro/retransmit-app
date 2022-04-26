@@ -1,18 +1,17 @@
 import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
 import LoginForm from "../components/LoginForm";
 
 export default function Login() {
-  return(
+  return (
     <Grid
       container
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={{height: "30rem"}}
+      sx={ { height: "30rem" } }
     >
-      <Grid item sx={{width: "20rem"}}>
-        <LoginForm />
+      <Grid item sx={ { width: "20rem" } }>
+        <LoginForm/>
       </Grid>
     </Grid>
   )

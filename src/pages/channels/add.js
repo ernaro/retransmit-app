@@ -1,8 +1,9 @@
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Container from "@mui/material/Container";
+
 import ChannelForm from "../../components/ChannelForm";
 import ChannelSnackbar from "../../components/ChannelSnackbar";
-import { useRouter } from "next/router";
 import { createChannel } from "../../service/apiService";
 
 export default function AddChannel() {
