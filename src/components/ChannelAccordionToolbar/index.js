@@ -1,8 +1,5 @@
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 
@@ -27,12 +24,10 @@ const ChannelAccordionToolbar = ({ searchValue, filterValue, handleSearchChange,
         Show:
       </Typography>
       <Select
-        // select
         sx={{mr: 3, ml: 2}}
         variant="standard"
         displayEmpty
         value={ filterValue }
-        defaultValue={ filterValue }
         onChange={ handleFilterChange }
       >
         <MenuItem value="">All</MenuItem>
