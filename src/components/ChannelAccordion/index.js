@@ -21,15 +21,15 @@ const ChannelAccordion = ({
   openDeleteDialog
 }) => {
   const mappingType = () => {
-    if (inputUrl.startsWith("udp") && outputUrl.startsWith("srt")) {
-      return "(udp -> srt)"
-    } else if (inputUrl.startsWith("udp") && outputUrl.startsWith("udp")) {
-      return "(udp -> udp)"
-    } else if (inputUrl.startsWith("http") && outputUrl.startsWith("udp")) {
-      return "(http/hls -> udp)"
-    } else if (inputUrl.startsWith("file") && outputUrl.startsWith("udp")) {
-      return "(file -> udp)"
-    } else return ""
+    // if (inputUrl.startsWith("udp") && outputUrl.startsWith("srt")) {
+    //   return "(udp -> srt)"
+    // } else if (inputUrl.startsWith("udp") && outputUrl.startsWith("udp")) {
+    //   return "(udp -> udp)"
+    // } else if (inputUrl.startsWith("http") && outputUrl.startsWith("udp")) {
+    //   return "(http/hls -> udp)"
+    // } else if (inputUrl.startsWith("file") && outputUrl.startsWith("udp")) {
+    //   return "(file -> udp)"
+    // } else return ""
   }
 
   return (
