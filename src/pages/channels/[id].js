@@ -1,14 +1,19 @@
+import useSWR from "swr";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Container from "@mui/material/Container";
 
+import Error from "../../components/Error";
+import Loader from "../../components/Loader";
 import ChannelForm from "../../components/ChannelForm";
 import ChannelSnackbar from "../../components/ChannelSnackbar";
-import { updateChannelById, getChannelById } from "../../service/apiService";
+import { updateChannelById, axiosFetcher } from "../../service/apiService";
 
 
-export default function EditChannel({ channel }) {
+export default function EditChannel() {
   const router = useRouter();
+  const { id } = router.query;
+  const { data: channel, error } = useSWR(`/channels/${id}`, axiosFetcher)
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
 
@@ -25,10 +30,14 @@ export default function EditChannel({ channel }) {
     setSnackOpen(false);
   }
 
+  if (error) return <Error message="Failed to load data!" />
+  if (!channel) return <Loader />
+
   return(
     <Container maxWidth="sm" sx={ { mt: 2 } }>
       <ChannelForm
         formTitle="Edit channel"
+        channel={ channel }
         submitHandler={ handleChannelSubmit }
         serviceName={channel.serviceName}
         providerName={channel.providerName}
@@ -48,14 +57,4 @@ export default function EditChannel({ channel }) {
       />
     </Container>
   )
-}
-
-export async function getServerSideProps(context) {
-  const { id } = context.query;
-  const { data: channel } = await getChannelById(id);
-  return {
-    props: {
-      channel
-    },
-  }
 }

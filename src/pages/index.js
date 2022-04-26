@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useSWR from 'swr';
 import Container from '@mui/material/Container';
 import Paper from "@mui/material/Paper";
@@ -13,13 +13,33 @@ import { startChannelById, stopChannelById, deleteChannelById } from "../service
 import { axiosFetcher } from "../service/apiService";
 
 
-
 export default function Index() {
+  const { data: channels, error } = useSWR("/channels", axiosFetcher, { refreshInterval: 1000 })
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [channelToDelete, setChannelToDelete] = useState({})
-  const { data: channels, error } = useSWR("/channels", axiosFetcher, { refreshInterval: 1000 })
+  const [channelToDelete, setChannelToDelete] = useState({});
+  const [searchValue, setSearchValue] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+  const [filteredChannels, setFilteredChannels] = useState([]);
+
+  useEffect(() => {
+    setFilteredChannels(
+      channels?.filter(channel =>
+        channel.serviceName.toLowerCase().includes(searchValue.toLowerCase())
+        &&
+        channel.outputUrl.startsWith(filterValue)
+      )
+    );
+  }, [searchValue, filterValue, channels])
+
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+  }
+
+  const handleFilterChange = e => {
+    setFilterValue(e.target.value);
+  }
 
   const handleSnackClose = () => {
     setSnackOpen(false);
@@ -58,9 +78,14 @@ export default function Index() {
 
   return (
     <Container maxWidth="md" sx={ { flexGrow: 1, mt: 2 } }>
-      <ChannelAccordionToolbar />
+      <ChannelAccordionToolbar
+        searchValue={ searchValue }
+        filterValue={ filterValue }
+        handleSearchChange={ handleSearchChange }
+        handleFilterChange={ handleFilterChange }
+      />
       <Paper>
-        { channels.map(channel => (
+        { filteredChannels?.map(channel => (
           <ChannelAccordion
             key={ channel.id }
             id={ channel.id }

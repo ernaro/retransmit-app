@@ -7,9 +7,10 @@ import TextField from "@mui/material/TextField";
 import Toolbar from "@mui/material/Toolbar";
 
 import Link from "../Link";
+import MenuItem from '@mui/material/MenuItem';
 
 
-const ChannelAccordionToolbar = () => {
+const ChannelAccordionToolbar = ({ searchValue, filterValue, handleSearchChange, handleFilterChange }) => {
   return(
     <Toolbar sx={ { mb: 2 } }>
       <Button
@@ -22,13 +23,24 @@ const ChannelAccordionToolbar = () => {
         Create
       </Button>
       <Typography component="div" variant="p2">
-        Filter by:
+        Show:
       </Typography>
-      <Box sx={{ mr: 3 }} >
-        <FormControlLabel control={<Checkbox />} label="udp" labelPlacement="start" />
-        <FormControlLabel control={<Checkbox />} label="srt" labelPlacement="start" />
-      </Box>
-      <TextField  variant="standard"  placeholder="Search:" />
+      {/*<Box sx={{ mr: 3 }} >*/}
+      {/*  <FormControlLabel control={<Checkbox />} label="udp" labelPlacement="start" />*/}
+      {/*  <FormControlLabel control={<Checkbox />} label="srt" labelPlacement="start" />*/}
+      {/*</Box>*/}
+      <TextField
+        select
+        sx={{mr: 3, ml: 2}}
+        variant="standard"
+        value={ filterValue }
+        onChange={ handleFilterChange }
+      >
+        <MenuItem value="">All</MenuItem>
+        <MenuItem value="udp">UDP Out</MenuItem>
+        <MenuItem value="srt">SRT Out</MenuItem>
+      </TextField>
+      <TextField onChange={ handleSearchChange } value={ searchValue }  variant="standard"  placeholder="Search:" />
     </Toolbar>
   )
 }

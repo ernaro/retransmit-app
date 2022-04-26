@@ -1,62 +1,46 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Link from "../Link";
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Link from '../Link';
 
 const validationSchema = Yup.object({
-  serviceName: Yup.string().required("Name is required!"),
-  providerName: Yup.string().required("Provider name is required!"),
-  serviceType: Yup.string().required("Service type is is required!"),
-  serviceId: Yup.number().required("Service ID is required!"),
-  pmtPid: Yup.number().required("PMT pid is required!"),
-  componentsStartPid: Yup.number().required("Components start pid is required!"),
-  bitrate: Yup.number().required("Bitrate is required!"),
-  inputUrl: Yup.string().required("Input Url is required!"),
-  // outputInterface: Yup.string().required("Please choose an output interface!"),
-  outputUrl: Yup.string().required("Output Url is required!"),
-  enabled: Yup.boolean().required("Status is required!"),
+  serviceName: Yup.string().required('Name is required!'),
+  providerName: Yup.string().required('Provider name is required!'),
+  serviceType: Yup.string().required('Service type is is required!'),
+  serviceId: Yup.number().required('Service ID is required!'),
+  pmtPid: Yup.number().required('PMT pid is required!'),
+  componentsStartPid: Yup.number().required('Components start pid is required!'),
+  bitrate: Yup.number().required('Bitrate is required!'),
+  inputUrl: Yup.string().required('Input Url is required!'),
+  outputUrl: Yup.string().required('Output Url is required!'),
+  enabled: Yup.boolean().required('Status is required!'),
 })
 
-const ChannelForm = ({
-    serviceName = '',
-    providerName = '',
-    serviceType = 'digital_tv',
-    serviceId = 1101,
-    pmtPid = 101,
-    componentsStartPid = 111,
-    bitrate = 6000000,
-    inputUrl = '',
-    outputUrl = '',
-    enabled = false,
-    formTitle,
-    submitHandler
-}) => {
+const ChannelForm = ({ channel, formTitle, submitHandler }) => {
   const {
     handleSubmit,
     handleChange,
     values,
     touched,
     errors,
-    isSubmitting,
     isValidating,
   } = useFormik({
     initialValues: {
-      serviceName: serviceName,
-      providerName: providerName,
-      serviceType: serviceType,
-      serviceId: serviceId,
-      pmtPid: pmtPid,
-      componentsStartPid: componentsStartPid,
-      bitrate: bitrate,
-      inputUrl: inputUrl,
-      // outputInterface: '',
-      outputUrl: outputUrl,
-      enabled: enabled,
+      serviceName: channel?.serviceName || '',
+      providerName: channel?.providerName || '',
+      serviceType: channel?.serviceType || 'digital_tv',
+      serviceId: channel?.serviceId || 1101,
+      pmtPid: channel?.pmtPid || 101,
+      componentsStartPid: channel?.componentsStartPid || 111,
+      bitrate: channel?.bitrate || 6000000,
+      inputUrl: channel?.inputUrl || '',
+      outputUrl: channel?.outputUrl || '',
+      enabled: channel?.enabled || false,
     },
     enableReinitialize: true,
     validationSchema: validationSchema,
@@ -191,8 +175,8 @@ const ChannelForm = ({
           <MenuItem value={ false }>Disabled</MenuItem>
         </TextField>
         <Button
-          sx={ { mt: 2 } }
           fullWidth
+          sx={ { mt: 2 } }
           variant="outlined"
           color="success"
           type="submit"
@@ -201,12 +185,12 @@ const ChannelForm = ({
           Save
         </Button>
         <Button
-          sx={ { mt: 2 } }
           fullWidth
+          sx={ { mt: 2 } }
           component={ Link }
-          href="/"
           variant="outlined"
           color="error"
+          href="/"
         >
           Cancel
         </Button>
