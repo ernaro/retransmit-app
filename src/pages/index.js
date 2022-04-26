@@ -84,7 +84,7 @@ export default function Index() {
         handleSearchChange={ handleSearchChange }
         handleFilterChange={ handleFilterChange }
       />
-      <Paper>
+      <Paper sx={{ mb: 4}}>
         { filteredChannels?.map(channel => (
           <ChannelAccordion
             key={ channel.id }
