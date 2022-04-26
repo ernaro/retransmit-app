@@ -19,8 +19,8 @@ export default function Index() {
   const [snackMessage, setSnackMessage] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [channelToDelete, setChannelToDelete] = useState({});
-  const [searchValue, setSearchValue] = useState('');
-  const [filterValue, setFilterValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
+  const [filterValue, setFilterValue] = useState("");
   const [filteredChannels, setFilteredChannels] = useState([]);
 
   useEffect(() => {
