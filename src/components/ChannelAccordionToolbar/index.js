@@ -1,18 +1,18 @@
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Toolbar from "@mui/material/Toolbar";
-
-import Link from "../Link";
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Toolbar from '@mui/material/Toolbar';
 import MenuItem from '@mui/material/MenuItem';
-import { Select } from '@mui/material';
+import Select from '@mui/material/Select';
+
+import Link from '../Link';
 
 
 const ChannelAccordionToolbar = ({ searchValue, filterValue, handleSearchChange, handleFilterChange }) => {
-  return(
+  return (
     <Toolbar sx={ { mb: 2 } }>
       <Button
-        sx={ { mr: "auto" } }
+        sx={ { mr: 'auto' } }
         component={ Link }
         href="/channels/add"
         variant="outlined"
@@ -24,7 +24,7 @@ const ChannelAccordionToolbar = ({ searchValue, filterValue, handleSearchChange,
         Show:
       </Typography>
       <Select
-        sx={{mr: 3, ml: 2}}
+        sx={ { mr: 1, ml: 1 } }
         variant="standard"
         displayEmpty
         value={ filterValue }

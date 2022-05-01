@@ -12,6 +12,22 @@ export default function AddChannel() {
   const [snackMessage, setSnackMessage] = useState("");
 
   const handleChannelSubmit = (channel) => {
+    // let updatedChannel;
+    // if(!channel.inputUrl.startsWith("srt")){
+    //   const { inputMode, inputLatency, ...filtered } = channel;
+    //   updatedChannel = { ...filtered };
+    // } else if (!channel.outputUrl.startsWith("srt")){
+    //   const { outputMode, outputLatency, ...filtered } = channel;
+    //   updatedChannel = { ...filtered };
+    // } else if (!channel.inputUrl.startsWith("srt") && !channel.outputUrl.startsWith("srt")) {
+    //   const { inputMode, inputLatency, outputMode, outputLatency, ...filtered } = channel;
+    //   updatedChannel = { ...filtered };
+    // } else {
+    //   updatedChannel = { ...channel }
+    // }
+    // console.log(channel)
+    // console.log(updatedChannel);
+
     createChannel(channel)
       .then(() => router.replace('/'))
       .catch(() => {

@@ -38,17 +38,8 @@ export default function EditChannel() {
       <ChannelForm
         formTitle="Edit channel"
         channel={ channel }
+        mappingType={ channel.mappingType }
         submitHandler={ handleChannelSubmit }
-        serviceName={channel.serviceName}
-        providerName={channel.providerName}
-        serviceType={channel.serviceType}
-        serviceId={channel.serviceId}
-        pmtPid={channel.pmtPid}
-        componentsStartPid={channel.componentsStartPid}
-        bitrate={channel.bitrate}
-        inputUrl={channel.inputUrl}
-        outputUrl={channel.outputUrl}
-        enabled={channel.enabled}
       />
       <ChannelSnackbar
         open={ snackOpen }

@@ -6,6 +6,9 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
+
 import Link from '../Link';
 
 const validationSchema = Yup.object({
@@ -17,7 +20,9 @@ const validationSchema = Yup.object({
   componentsStartPid: Yup.number().required('Components start pid is required!'),
   bitrate: Yup.number().required('Bitrate is required!'),
   inputUrl: Yup.string().required('Input Url is required!'),
+  inputLatency: Yup.number().min(120, "Minimal latency is 120").max(6000, "Maximum latency is 6000"),
   outputUrl: Yup.string().required('Output Url is required!'),
+  outputLatency: Yup.number().min(120, "Minimal latency is 120").max(6000, "Maximum latency is 6000"),
   enabled: Yup.boolean().required('Status is required!'),
 })
 
@@ -39,7 +44,12 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
       componentsStartPid: channel?.componentsStartPid || 111,
       bitrate: channel?.bitrate || 6000000,
       inputUrl: channel?.inputUrl || '',
+      inputMode: channel?.inputMode || 'caller',
+      inputLatency: channel?.inputLatency || 120,
       outputUrl: channel?.outputUrl || '',
+      outputMode: channel?.outputMode || 'caller',
+      outputLatency: channel?.latency || 120,
+      transcodeAudio: channel?.transcodeAudio || false,
       enabled: channel?.enabled || false,
     },
     enableReinitialize: true,
@@ -148,6 +158,32 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           error={ touched.inputUrl && Boolean(errors.inputUrl) }
           helperText={ touched.inputUrl && errors.inputUrl }
         />
+        <Box sx={{ display: values.inputUrl.startsWith("srt") ? "flex" : "none" }}>
+          <TextField
+            select
+            name="inputMode"
+            label="Mode:"
+            margin="normal"
+            variant="standard"
+            value={ values.inputMode }
+            onChange={ handleChange }
+            sx={{ mr: 1 }}
+          >
+            <MenuItem value="caller">Caller</MenuItem>
+            <MenuItem value="listener">Listener</MenuItem>
+          </TextField>
+          <TextField
+            name="inputLatency"
+            label="Latency:"
+            margin="normal"
+            variant="standard"
+            type="number"
+            value={ values.inputLatency }
+            onChange={ handleChange }
+            error={ touched.inputLatency && Boolean(errors.inputLatency) }
+            helperText={ touched.inputLatency && errors.inputLatency }
+          />
+        </Box>
         <TextField
           name="outputUrl"
           label="Output Url:"
@@ -159,6 +195,32 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           error={ touched.outputUrl && Boolean(errors.outputUrl) }
           helperText={ touched.outputUrl && errors.outputUrl }
         />
+        <Box sx={{ display: values.outputUrl.startsWith("srt") ? "flex" : "none" }}>
+          <TextField
+            select
+            name="outputMode"
+            label="Mode:"
+            margin="normal"
+            variant="standard"
+            value={ values.outputMode }
+            onChange={ handleChange }
+            sx={{ mr: 1 }}
+          >
+            <MenuItem value="caller">Caller</MenuItem>
+            <MenuItem value="listener">Listener</MenuItem>
+          </TextField>
+          <TextField
+            name="outputLatency"
+            label="Latency:"
+            margin="normal"
+            variant="standard"
+            type="number"
+            value={ values.outputLatency }
+            onChange={ handleChange }
+            error={ touched.outputLatency && Boolean(errors.outputLatency) }
+            helperText={ touched.outputLatency && errors.outputLatency }
+          />
+        </Box>
         <TextField
           name="enabled"
           label="Enabled:"
@@ -174,6 +236,21 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           <MenuItem value={ true }>Enabled</MenuItem>
           <MenuItem value={ false }>Disabled</MenuItem>
         </TextField>
+        <Typography component="div" sx={{mt: 3}}>
+          * Experimental settings:
+        </Typography>
+        <FormControlLabel
+          sx={{margin: "auto"}}
+          label="Transcode audio to MPEG-1?"
+          labelPlacement="start"
+          control={
+            <Switch
+              name="transcodeAudio"
+              checked={ values.transcodeAudio }
+              onChange={ handleChange }
+            />
+          }
+        />
         <Button
           fullWidth
           sx={ { mt: 2 } }

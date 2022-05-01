@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const axios = Axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: 'http://192.168.200.16/api',
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
@@ -16,7 +16,20 @@ export const getChannelById = (id) => {
 }
 
 export const createChannel = (channel) => {
-  return axios.post("/channels", channel);
+  let updatedChannel;
+  if(!channel.inputUrl.startsWith("srt")){
+    const { inputMode, inputLatency, ...filtered } = channel;
+    updatedChannel = { ...filtered };
+  } else if (!channel.outputUrl.startsWith("srt")){
+    const { outputMode, outputLatency, ...filtered } = channel;
+    updatedChannel = { ...filtered };
+  } else if (!channel.inputUrl.startsWith("srt") && !channel.outputUrl.startsWith("srt")) {
+    const { inputMode, inputLatency, outputMode, outputLatency, ...filtered } = channel;
+    updatedChannel = { ...filtered };
+  } else {
+    updatedChannel = { ...channel }
+  }
+  return axios.post("/channels", updatedChannel);
 }
 
 export const updateChannelById = (id, channel) => {
