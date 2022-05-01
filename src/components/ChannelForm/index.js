@@ -48,7 +48,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
       inputLatency: channel?.inputLatency || 120,
       outputUrl: channel?.outputUrl || '',
       outputMode: channel?.outputMode || 'caller',
-      outputLatency: channel?.latency || 120,
+      outputLatency: channel?.outputLatency || 120,
       transcodeAudio: channel?.transcodeAudio || false,
       enabled: channel?.enabled || false,
     },
