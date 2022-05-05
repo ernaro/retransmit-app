@@ -60,12 +60,56 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
   return (
     <Paper sx={ { padding: '1rem' } }>
       <Typography component="div" variant="h4" textAlign="center">{ formTitle }</Typography>
+      <Typography component="div" sx={{mt: 3}}>
+        Input settings:
+      </Typography>
       <Box component="form" onSubmit={ handleSubmit }>
+        <TextField
+          name="inputUrl"
+          label="Input Url:"
+          placeholder="udp://ip:port, rtmp://url, srt://ip:port, http://url"
+          margin="dense"
+          size="small"
+          fullWidth
+          value={ values.inputUrl }
+          onChange={ handleChange }
+          error={ touched.inputUrl && Boolean(errors.inputUrl) }
+          helperText={ touched.inputUrl && errors.inputUrl }
+        />
+        <Box sx={{ display: values.inputUrl.startsWith("srt") ? "flex" : "none" }}>
+          <TextField
+            select
+            name="inputMode"
+            label="Mode:"
+            margin="dense"
+            size="small"
+            value={ values.inputMode }
+            onChange={ handleChange }
+            sx={{ mr: 1 }}
+          >
+            <MenuItem value="caller">Caller</MenuItem>
+            <MenuItem value="listener">Listener</MenuItem>
+          </TextField>
+          <TextField
+            name="inputLatency"
+            label="Latency:"
+            margin="dense"
+            size="small"
+            type="number"
+            value={ values.inputLatency }
+            onChange={ handleChange }
+            error={ touched.inputLatency && Boolean(errors.inputLatency) }
+            helperText={ touched.inputLatency && errors.inputLatency }
+          />
+        </Box>
+        <Typography component="div" sx={{mt: 3}}>
+          Output settings:
+        </Typography>
         <TextField
           name="serviceName"
           label="Service Name:"
           margin="normal"
-          variant="standard"
+          size="small"
           fullWidth
           value={ values.serviceName }
           onChange={ handleChange }
@@ -76,7 +120,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           name="providerName"
           label="Provider Name:"
           margin="normal"
-          variant="standard"
+          size="small"
           fullWidth
           value={ values.providerName }
           onChange={ handleChange }
@@ -87,7 +131,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           name="serviceType"
           label="Service Type:"
           margin="normal"
-          variant="standard"
+          size="small"
           select
           fullWidth
           value={ values.serviceType }
@@ -104,7 +148,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           type="number"
           label="Service Id:"
           margin="normal"
-          variant="standard"
+          size="small"
           fullWidth
           value={ values.serviceId }
           onChange={ handleChange }
@@ -116,7 +160,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           type="number"
           label="PMT Pid:"
           margin="normal"
-          variant="standard"
+          size="small"
           fullWidth
           value={ values.pmtPid }
           onChange={ handleChange }
@@ -128,7 +172,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           type="number"
           label="Components Start Pid:"
           margin="normal"
-          variant="standard"
+          size="small"
           fullWidth
           value={ values.componentsStartPid }
           onChange={ handleChange }
@@ -138,9 +182,9 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
         <TextField
           name="bitrate"
           type="number"
-          label="Bitrate:"
+          label="Bitrate: bit/s"
           margin="normal"
-          variant="standard"
+          size="small"
           fullWidth
           value={ values.bitrate }
           onChange={ handleChange }
@@ -148,48 +192,13 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           helperText={ touched.bitrate && errors.bitrate }
         />
         <TextField
-          name="inputUrl"
-          label="Input Url:"
-          margin="normal"
-          variant="standard"
-          fullWidth
-          value={ values.inputUrl }
-          onChange={ handleChange }
-          error={ touched.inputUrl && Boolean(errors.inputUrl) }
-          helperText={ touched.inputUrl && errors.inputUrl }
-        />
-        <Box sx={{ display: values.inputUrl.startsWith("srt") ? "flex" : "none" }}>
-          <TextField
-            select
-            name="inputMode"
-            label="Mode:"
-            margin="normal"
-            variant="standard"
-            value={ values.inputMode }
-            onChange={ handleChange }
-            sx={{ mr: 1 }}
-          >
-            <MenuItem value="caller">Caller</MenuItem>
-            <MenuItem value="listener">Listener</MenuItem>
-          </TextField>
-          <TextField
-            name="inputLatency"
-            label="Latency:"
-            margin="normal"
-            variant="standard"
-            type="number"
-            value={ values.inputLatency }
-            onChange={ handleChange }
-            error={ touched.inputLatency && Boolean(errors.inputLatency) }
-            helperText={ touched.inputLatency && errors.inputLatency }
-          />
-        </Box>
-        <TextField
           name="outputUrl"
           label="Output Url:"
-          margin="normal"
-          variant="standard"
+          placeholder="udp://ip:port, srt://ip:port"
+          margin="dense"
+          size="small"
           fullWidth
+          sx={{mt: 2}}
           value={ values.outputUrl }
           onChange={ handleChange }
           error={ touched.outputUrl && Boolean(errors.outputUrl) }
@@ -200,8 +209,8 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
             select
             name="outputMode"
             label="Mode:"
-            margin="normal"
-            variant="standard"
+            margin="dense"
+            size="small"
             value={ values.outputMode }
             onChange={ handleChange }
             sx={{ mr: 1 }}
@@ -212,8 +221,8 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           <TextField
             name="outputLatency"
             label="Latency:"
-            margin="normal"
-            variant="standard"
+            margin="dense"
+            size="small"
             type="number"
             value={ values.outputLatency }
             onChange={ handleChange }
@@ -225,7 +234,8 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           name="enabled"
           label="Enabled:"
           margin="normal"
-          variant="standard"
+          sx={{mt: 4}}
+          size="small"
           select
           fullWidth
           value={ values.enabled }

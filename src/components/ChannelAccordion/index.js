@@ -31,7 +31,7 @@ const ChannelAccordion = ({
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <p><b>Bitrate: </b>{ bitrate } Bit/s</p>
+        <p><b>Bitrate: </b>{ bitrate } bit/s</p>
         <p style={ { overflow: 'hidden', textOverflow: "ellipsis" } }><b>Input: </b>{ inputUrl }</p>
         <p><b>Output: </b>{ outputUrl }</p>
         <Box sx={ { flexGrow: 1, display: "flex" } }>
@@ -58,13 +58,13 @@ const ChannelAccordion = ({
             sx={ { marginRight: '1rem' } }
             href={ `/channels/${ id }` }
             variant="outlined"
-            color="warning"
+            // color="warning"
           >
             Edit
           </Button>
           <Button
-            variant="text"
-            color="error"
+            variant="outlined"
+            color="warning"
             onClick={ () => openDeleteDialog(id, serviceName) }
           >
             Delete

@@ -21,7 +21,7 @@ export default function EditChannel() {
     updateChannelById(channel.id, values)
       .then(() => router.replace('/'))
       .catch(() => {
-        setSnackMessage("Channel name already exist!");
+        setSnackMessage("Channel name already exist or input/output url format invalid!");
         setSnackOpen(true);
       })
   }
