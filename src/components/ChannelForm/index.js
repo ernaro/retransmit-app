@@ -14,7 +14,7 @@ import Link from '../Link';
 const validationSchema = Yup.object({
   serviceName: Yup.string().required('Name is required!'),
   providerName: Yup.string().required('Provider name is required!'),
-  serviceType: Yup.string().required('Service type is is required!'),
+  // serviceType: Yup.string().required('Service type is is required!'),
   serviceId: Yup.number().required('Service ID is required!'),
   pmtPid: Yup.number().required('PMT pid is required!'),
   componentsStartPid: Yup.number().required('Components start pid is required!'),
@@ -23,7 +23,7 @@ const validationSchema = Yup.object({
   inputLatency: Yup.number().min(120, "Minimal latency is 120").max(6000, "Maximum latency is 6000"),
   outputUrl: Yup.string().required('Output Url is required!'),
   outputLatency: Yup.number().min(120, "Minimal latency is 120").max(6000, "Maximum latency is 6000"),
-  enabled: Yup.boolean().required('Status is required!'),
+  // enabled: Yup.boolean().required('Status is required!'),
 })
 
 const ChannelForm = ({ channel, formTitle, submitHandler }) => {
@@ -49,6 +49,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
       outputUrl: channel?.outputUrl || '',
       outputMode: channel?.outputMode || 'caller',
       outputLatency: channel?.outputLatency || 120,
+      transcodeVideo: channel?.transcodeVideo || false,
       transcodeAudio: channel?.transcodeAudio || false,
       enabled: channel?.enabled || false,
     },
@@ -60,7 +61,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
   return (
     <Paper sx={ { padding: '1rem' } }>
       <Typography component="div" variant="h4" textAlign="center">{ formTitle }</Typography>
-      <Typography component="div" sx={{mt: 3}}>
+      <Typography component="div" sx={ { mt: 3 } }>
         Input settings:
       </Typography>
       <Box component="form" onSubmit={ handleSubmit }>
@@ -76,7 +77,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           error={ touched.inputUrl && Boolean(errors.inputUrl) }
           helperText={ touched.inputUrl && errors.inputUrl }
         />
-        <Box sx={{ display: values.inputUrl.startsWith("srt") ? "flex" : "none" }}>
+        <Box sx={ { display: values.inputUrl.startsWith("srt") ? "flex" : "none" } }>
           <TextField
             select
             name="inputMode"
@@ -85,7 +86,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
             size="small"
             value={ values.inputMode }
             onChange={ handleChange }
-            sx={{ mr: 1 }}
+            sx={ { mr: 1 } }
           >
             <MenuItem value="caller">Caller</MenuItem>
             <MenuItem value="listener">Listener</MenuItem>
@@ -213,7 +214,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
             size="small"
             value={ values.outputMode }
             onChange={ handleChange }
-            sx={{ mr: 1 }}
+            sx={ { mr: 1 } }
           >
             <MenuItem value="caller">Caller</MenuItem>
             <MenuItem value="listener">Listener</MenuItem>
@@ -234,7 +235,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           name="enabled"
           label="Enabled:"
           margin="normal"
-          sx={{mt: 4}}
+          sx={ { mt: 4 } }
           size="small"
           select
           fullWidth
@@ -246,11 +247,23 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           <MenuItem value={ true }>Enabled</MenuItem>
           <MenuItem value={ false }>Disabled</MenuItem>
         </TextField>
-        <Typography component="div" sx={{mt: 3}}>
+        <Typography component="div" sx={ { mt: 3 } }>
           * Experimental settings:
         </Typography>
         <FormControlLabel
-          sx={{margin: "auto"}}
+          sx={ { margin: "auto" } }
+          label="Transcode video to MPEG-2?"
+          labelPlacement="start"
+          control={
+            <Switch
+              name="transcodeVideo"
+              checked={ values.transcodeVideo }
+              onChange={ handleChange }
+            />
+          }
+        />
+        <FormControlLabel
+          sx={ { margin: "auto" } }
           label="Transcode audio to MPEG-1?"
           labelPlacement="start"
           control={
