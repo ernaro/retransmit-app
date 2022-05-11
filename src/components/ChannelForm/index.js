@@ -264,7 +264,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
         />
         <FormControlLabel
           sx={ { margin: "auto" } }
-          label="Enable mpeg-1 audio transcoding?"
+          label="Transcode audio to MPEG-1?"
           labelPlacement="start"
           control={
             <Switch
