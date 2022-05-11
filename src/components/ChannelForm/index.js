@@ -248,11 +248,11 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           <MenuItem value={ false }>Disabled</MenuItem>
         </TextField>
         <Typography component="div" sx={ { mt: 3 } }>
-          * Experimental settings:
+          * Transcode settings:
         </Typography>
         <FormControlLabel
           sx={ { margin: "auto" } }
-          label="Transcode video to MPEG-2?"
+          label="Enable video transcoding?"
           labelPlacement="start"
           control={
             <Switch
@@ -264,7 +264,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
         />
         <FormControlLabel
           sx={ { margin: "auto" } }
-          label="Transcode audio to MPEG-1?"
+          label="Enable mpeg-1 audio transcoding?"
           labelPlacement="start"
           control={
             <Switch
