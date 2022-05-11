@@ -251,7 +251,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           * Transcode settings:
         </Typography>
         <FormControlLabel
-          sx={ { margin: "auto" } }
+          sx={ { mr: 1, ml: 'auto' } }
           label="Enable video transcoding?"
           labelPlacement="start"
           control={
@@ -263,7 +263,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           }
         />
         <FormControlLabel
-          sx={ { margin: "auto" } }
+          sx={ { mr: 1, ml: 'auto' } }
           label="Transcode audio to MPEG-1?"
           labelPlacement="start"
           control={
