@@ -8,18 +8,16 @@ export default function Error({ statusCode }) {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={ { height: "30rem" } }
+      sx={{ height: "30rem" }}
     >
       <Grid item>
-        <Typography variant="h6">
-          Server ERROR! Code: ${ statusCode }
-        </Typography>
+        <Typography variant="h6">Server ERROR! Code: ${statusCode}</Typography>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 Error.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
-  return { statusCode }
-}
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+  return { statusCode };
+};

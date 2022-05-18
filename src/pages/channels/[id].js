@@ -9,43 +9,44 @@ import ChannelForm from "../../components/ChannelForm";
 import ChannelSnackbar from "../../components/ChannelSnackbar";
 import { updateChannelById, axiosFetcher } from "../../service/apiService";
 
-
 export default function EditChannel() {
   const router = useRouter();
   const { id } = router.query;
-  const { data: channel, error } = useSWR(`/channels/${id}`, axiosFetcher)
+  const { data: channel, error } = useSWR(`/channels/${id}`, axiosFetcher);
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
 
   const handleChannelSubmit = (values) => {
     updateChannelById(channel.id, values)
-      .then(() => router.replace('/'))
+      .then(() => router.replace("/"))
       .catch(() => {
-        setSnackMessage("Channel name already exist or input/output url format invalid!");
+        setSnackMessage(
+          "Channel name already exist or input/output url format invalid!"
+        );
         setSnackOpen(true);
-      })
-  }
+      });
+  };
 
   const handleSnackClose = () => {
     setSnackOpen(false);
-  }
+  };
 
-  if (error) return <Error message="Failed to load data!" />
-  if (!channel) return <Loader />
+  if (error) return <Error message="Failed to load data!" />;
+  if (!channel) return <Loader />;
 
-  return(
-    <Container maxWidth="sm" sx={ { mt: 2 } }>
+  return (
+    <Container maxWidth="sm" sx={{ mt: 2 }}>
       <ChannelForm
         formTitle="Edit channel"
-        channel={ channel }
-        mappingType={ channel.mappingType }
-        submitHandler={ handleChannelSubmit }
+        channel={channel}
+        mappingType={channel.mappingType}
+        submitHandler={handleChannelSubmit}
       />
       <ChannelSnackbar
-        open={ snackOpen }
-        onClose={ handleSnackClose }
-        message={ snackMessage }
+        open={snackOpen}
+        onClose={handleSnackClose}
+        message={snackMessage}
       />
     </Container>
-  )
+  );
 }

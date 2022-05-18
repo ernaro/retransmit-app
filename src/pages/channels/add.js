@@ -13,28 +13,30 @@ export default function AddChannel() {
 
   const handleChannelSubmit = (channel) => {
     createChannel(channel)
-      .then(() => router.replace('/'))
+      .then(() => router.replace("/"))
       .catch(() => {
-        setSnackMessage("Channel name already exist or input/output url format invalid!!");
+        setSnackMessage(
+          "Channel name already exist or input/output url format invalid!!"
+        );
         setSnackOpen(true);
-      })
-  }
+      });
+  };
 
   const handleSnackClose = () => {
     setSnackOpen(false);
-  }
+  };
 
-  return(
-    <Container maxWidth="sm" sx={ { mt: 2 } }>
+  return (
+    <Container maxWidth="sm" sx={{ mt: 2 }}>
       <ChannelForm
         formTitle="Add channel"
-        submitHandler={ handleChannelSubmit }
+        submitHandler={handleChannelSubmit}
       />
       <ChannelSnackbar
-        open={ snackOpen }
-        onClose={ handleSnackClose }
-        message={ snackMessage }
+        open={snackOpen}
+        onClose={handleSnackClose}
+        message={snackMessage}
       />
     </Container>
-  )
+  );
 }

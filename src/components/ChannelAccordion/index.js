@@ -8,7 +8,6 @@ import Accordion from "@mui/material/Accordion";
 
 import Link from "../Link";
 
-
 const ChannelAccordion = ({
   id,
   serviceName,
@@ -18,45 +17,54 @@ const ChannelAccordion = ({
   enabled,
   startChannel,
   stopChannel,
-  openDeleteDialog
+  openDeleteDialog,
 }) => {
   return (
     <Accordion>
-      <AccordionSummary expandIcon={ <ExpandMoreIcon/> }>
-        <Typography component="div" sx={ { flexGrow: 1 } }>
-          { serviceName }
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography component="div" sx={{ flexGrow: 1 }}>
+          {serviceName}
         </Typography>
-        <Typography component="div" sx={ { marginRight: '1rem' } }>
-          Status: { enabled ? "On" : "Off" }
+        <Typography component="div" sx={{ marginRight: "1rem" }}>
+          Status: {enabled ? "On" : "Off"}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <p><b>Bitrate: </b>{ bitrate } bit/s</p>
-        <p style={ { overflow: 'hidden', textOverflow: "ellipsis" } }><b>Input: </b>{ inputUrl }</p>
-        <p><b>Output: </b>{ outputUrl }</p>
-        <Box sx={ { flexGrow: 1, display: "flex" } }>
+        <p>
+          <b>Bitrate: </b>
+          {bitrate} bit/s
+        </p>
+        <p style={{ overflow: "hidden", textOverflow: "ellipsis" }}>
+          <b>Input: </b>
+          {inputUrl}
+        </p>
+        <p>
+          <b>Output: </b>
+          {outputUrl}
+        </p>
+        <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Button
             variant="outlined"
             color="success"
-            disabled={ enabled }
-            sx={ { marginRight: '1rem' } }
-            onClick={ () => startChannel(id) }
+            disabled={enabled}
+            sx={{ marginRight: "1rem" }}
+            onClick={() => startChannel(id)}
           >
             Start
           </Button>
           <Button
             variant="outlined"
             color="error"
-            disabled={ !enabled }
-            sx={ { mr: "auto" } }
-            onClick={ () => stopChannel(id) }
+            disabled={!enabled}
+            sx={{ mr: "auto" }}
+            onClick={() => stopChannel(id)}
           >
             Stop
           </Button>
           <Button
-            component={ Link }
-            sx={ { marginRight: '1rem' } }
-            href={ `/channels/${ id }` }
+            component={Link}
+            sx={{ marginRight: "1rem" }}
+            href={`/channels/${id}`}
             variant="outlined"
             // color="warning"
           >
@@ -65,14 +73,14 @@ const ChannelAccordion = ({
           <Button
             variant="outlined"
             color="warning"
-            onClick={ () => openDeleteDialog(id, serviceName) }
+            onClick={() => openDeleteDialog(id, serviceName)}
           >
             Delete
           </Button>
         </Box>
       </AccordionDetails>
     </Accordion>
-  )
-}
+  );
+};
 
 export default ChannelAccordion;

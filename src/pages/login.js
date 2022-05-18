@@ -8,11 +8,11 @@ export default function Login() {
       direction="column"
       justifyContent="center"
       alignItems="center"
-      sx={ { height: "30rem" } }
+      sx={{ height: "30rem" }}
     >
-      <Grid item sx={ { width: "20rem" } }>
-        <LoginForm/>
+      <Grid item sx={{ width: "20rem" }}>
+        <LoginForm />
       </Grid>
     </Grid>
-  )
+  );
 }

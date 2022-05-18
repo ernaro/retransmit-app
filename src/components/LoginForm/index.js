@@ -8,29 +8,23 @@ import Box from "@mui/material/Box";
 
 const validationSchema = Yup.object({
   username: Yup.string().required("Username is required!"),
-  password: Yup.string().required("Password is required!")
-})
+  password: Yup.string().required("Password is required!"),
+});
 
 const LoginForm = ({ submitHandler }) => {
-  const {
-    handleSubmit,
-    handleChange,
-    isValidating,
-    values,
-    touched,
-    errors
-  } = useFormik({
-    initialValues: {
-      username: '',
-      password: ''
-    },
-    validationSchema: validationSchema,
-    onSubmit: submitHandler
-  })
+  const { handleSubmit, handleChange, isValidating, values, touched, errors } =
+    useFormik({
+      initialValues: {
+        username: "",
+        password: "",
+      },
+      validationSchema: validationSchema,
+      onSubmit: submitHandler,
+    });
 
-  return(
-    <Paper sx={ { padding: '1rem' } }>
-      <Box component="form" onSubmit={ handleSubmit }>
+  return (
+    <Paper sx={{ padding: "1rem" }}>
+      <Box component="form" onSubmit={handleSubmit}>
         <Typography component="div" variant="h4" textAlign="center">
           Login
         </Typography>
@@ -41,10 +35,10 @@ const LoginForm = ({ submitHandler }) => {
           margin="normal"
           name="username"
           label="Username:"
-          value={ values.username }
-          onChange={ handleChange }
-          error={ touched.username && Boolean(errors.username) }
-          helperText={ touched.username && errors.username }
+          value={values.username}
+          onChange={handleChange}
+          error={touched.username && Boolean(errors.username)}
+          helperText={touched.username && errors.username}
         />
         <TextField
           fullWidth
@@ -54,24 +48,24 @@ const LoginForm = ({ submitHandler }) => {
           name="password"
           type="password"
           label="Password:"
-          value={ values.password }
-          onChange={ handleChange }
-          error={ touched.password && Boolean(errors.password) }
-          helperText={ touched.password && errors.password }
+          value={values.password}
+          onChange={handleChange}
+          error={touched.password && Boolean(errors.password)}
+          helperText={touched.password && errors.password}
         />
         <Button
-          sx={ { mt: 6 } }
+          sx={{ mt: 6 }}
           fullWidth
           variant="outlined"
           color="success"
           type="submit"
-          disabled={ isValidating }
+          disabled={isValidating}
         >
           Login
         </Button>
       </Box>
     </Paper>
-  )
-}
+  );
+};
 
 export default LoginForm;
