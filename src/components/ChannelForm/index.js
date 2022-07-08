@@ -14,12 +14,9 @@ import Link from "../Link";
 const validationSchema = Yup.object({
   serviceName: Yup.string().required("Name is required!"),
   providerName: Yup.string().required("Provider name is required!"),
-  // serviceType: Yup.string().required('Service type is is required!'),
   serviceId: Yup.number().required("Service ID is required!"),
   pmtPid: Yup.number().required("PMT pid is required!"),
-  componentsStartPid: Yup.number().required(
-    "Components start pid is required!"
-  ),
+  componentsStartPid: Yup.number().required("Components start pid is required!"),
   bitrate: Yup.number().required("Bitrate is required!"),
   inputUrl: Yup.string().required("Input Url is required!"),
   inputLatency: Yup.number()
@@ -39,6 +36,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
         serviceName: channel?.serviceName || "",
         providerName: channel?.providerName || "",
         serviceType: channel?.serviceType || "digital_tv",
+        audioType: channel?.audioType || "mpeg1",
         serviceId: channel?.serviceId || 1101,
         pmtPid: channel?.pmtPid || 101,
         componentsStartPid: channel?.componentsStartPid || 111,
@@ -66,7 +64,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
       <Typography component="div" sx={{ mt: 3 }}>
         Input settings:
       </Typography>
-      <Box component="form" onSubmit={handleSubmit}>
+      <Box component="form" onSubmit={ handleSubmit }>
         <TextField
           name="inputUrl"
           label="Input Url:"
@@ -211,9 +209,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           error={touched.outputUrl && Boolean(errors.outputUrl)}
           helperText={touched.outputUrl && errors.outputUrl}
         />
-        <Box
-          sx={{ display: values.outputUrl.startsWith("srt") ? "flex" : "none" }}
-        >
+        <Box sx={{ display: values.outputUrl.startsWith("srt") ? "flex" : "none" }}>
           <TextField
             select
             name="outputMode"
@@ -259,8 +255,8 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
           * Transcode settings:
         </Typography>
         <FormControlLabel
-          sx={{ mr: 1, ml: "auto" }}
-          label="Enable video transcoding?"
+          sx={{  mr: 1, ml: "auto" }}
+          label="Transcode video?"
           labelPlacement="start"
           control={
             <Switch
@@ -272,7 +268,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
         />
         <FormControlLabel
           sx={{ mr: 1, ml: "auto" }}
-          label="Transcode audio to MPEG-1?"
+          label="Transcode audio?"
           labelPlacement="start"
           control={
             <Switch
@@ -282,9 +278,26 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
             />
           }
         />
+        <Box sx={{ display: values.transcodeAudio ? "flex" : "none" }}>
+          <TextField
+            name="audioType"
+            label="Audio Type:"
+            margin="normal"
+            size="small"
+            select
+            fullWidth
+            value={values.audioType}
+            onChange={handleChange}
+            error={touched.audioType && Boolean(errors.audioType)}
+            helperText={touched.audioType && errors.audioType}
+          >
+            <MenuItem value="mpeg1">MPEG-1</MenuItem>
+            <MenuItem value="aac">AAC</MenuItem>
+          </TextField>
+        </Box>
         <Button
           fullWidth
-          sx={{ mt: 2 }}
+          sx={{ mt: 4 }}
           variant="outlined"
           color="success"
           type="submit"
