@@ -291,7 +291,7 @@ const ChannelForm = ({ channel, formTitle, submitHandler }) => {
             error={touched.audioType && Boolean(errors.audioType)}
             helperText={touched.audioType && errors.audioType}
           >
-            <MenuItem value="mpeg1">MPEG-1</MenuItem>
+            <MenuItem value="mpeg1">MPEG</MenuItem>
             <MenuItem value="aac">AAC</MenuItem>
           </TextField>
         </Box>
