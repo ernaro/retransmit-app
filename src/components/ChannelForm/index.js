@@ -20,11 +20,11 @@ const validationSchema = Yup.object({
   bitrate: Yup.number().required("Bitrate is required!"),
   inputUrl: Yup.string().required("Input Url is required!"),
   inputLatency: Yup.number()
-    .min(120, "Minimal latency is 120")
+    .min(20, "Minimal latency is 20")
     .max(6000, "Maximum latency is 6000"),
   outputUrl: Yup.string().required("Output Url is required!"),
   outputLatency: Yup.number()
-    .min(120, "Minimal latency is 120")
+    .min(20, "Minimal latency is 20")
     .max(6000, "Maximum latency is 6000"),
   // enabled: Yup.boolean().required('Status is required!'),
 });
