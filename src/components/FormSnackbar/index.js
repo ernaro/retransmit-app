@@ -1,7 +1,7 @@
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
-const ChannelSnackbar = ({ open, onClose, message }) => (
+const FormSnackbar = ( { open, onClose, message }) => (
   <Snackbar
     open={open}
     autoHideDuration={2000}
@@ -14,4 +14,4 @@ const ChannelSnackbar = ({ open, onClose, message }) => (
   </Snackbar>
 );
 
-export default ChannelSnackbar;
+export default FormSnackbar;

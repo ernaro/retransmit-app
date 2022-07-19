@@ -11,29 +11,8 @@ const axios = Axios.create({
 
 export const axiosFetcher = (url) => axios.get(url).then((res) => res.data);
 
-export const getChannelById = (id) => {
-  return axios.get(`/channels/${id}`);
-};
-
 export const createChannel = (channel) => {
-  let updatedChannel;
-  if (!channel.inputUrl.startsWith("srt")) {
-    const { inputMode, inputLatency, ...filtered } = channel;
-    updatedChannel = { ...filtered };
-  } else if (!channel.outputUrl.startsWith("srt")) {
-    const { outputMode, outputLatency, ...filtered } = channel;
-    updatedChannel = { ...filtered };
-  } else if (
-    !channel.inputUrl.startsWith("srt") &&
-    !channel.outputUrl.startsWith("srt")
-  ) {
-    const { inputMode, inputLatency, outputMode, outputLatency, ...filtered } =
-      channel;
-    updatedChannel = { ...filtered };
-  } else {
-    updatedChannel = { ...channel };
-  }
-  return axios.post("/channels", updatedChannel);
+  return axios.post("/channels", channel);
 };
 
 export const updateChannelById = (id, channel) => {
@@ -44,9 +23,33 @@ export const deleteChannelById = (id) => {
   return axios.delete(`/channels/${id}`);
 };
 
-export const startChannelById = (id) => axios.post(`/channels/${id}/start`);
+export const addInput = (channelId, input) => {
+  return axios.put(`/channels/${channelId}/inputs`, input);
+}
 
-export const stopChannelById = (id) => axios.post(`/channels/${id}/stop`);
+export const editInputById = (inputId, input) => {
+  return axios.put(`/inputs/${inputId}`, input);
+}
+
+export const deleteInputById = (inputId) => {
+  return axios.delete(`/inputs/${inputId}`);
+}
+
+export const addOutput = (channelId, output) => {
+  return axios.put(`/channels/${channelId}/outputs`, output);
+}
+
+export const editOutputById = (outputId, output) => {
+  return axios.put(`/outputs/${outputId}`, output);
+}
+
+export const deleteOutputById = (outputId) => {
+  return axios.delete(`/outputs/${outputId}`);
+}
+
+export const startOutputById = (id) => axios.post(`/outputs/${id}/start`);
+
+export const stopOutputById = (id) => axios.post(`/outputs/${id}/stop`);
 
 export const getServerInfo = () => {
   return axios.get("/server-info");

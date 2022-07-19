@@ -13,11 +13,11 @@ const ChannelDeleteDialog = ({ name, open, handleClose, handleDelete }) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{"Delete channel"}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">{"Delete confirmation"}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Channel "<b>{name}</b>" will be stopped and permanently deleted. Do
-          You want to delete channel?
+          "<b>{name}</b>" will be stopped and permanently deleted. Do
+          You want to delete it?
         </DialogContentText>
       </DialogContent>
       <DialogActions>

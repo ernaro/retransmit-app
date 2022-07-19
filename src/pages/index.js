@@ -5,15 +5,15 @@ import Paper from "@mui/material/Paper";
 
 import Error from "../components/Error";
 import Loader from "../components/Loader";
-import ChannelAccordion from "../components/ChannelAccordion";
-import ChannelAccordionToolbar from "../components/ChannelAccordionToolbar";
-import ChannelSnackbar from "../components/ChannelSnackbar";
+import Channel from "../components/Channel";
+import ChannelToolbar from "../components/ChannelToolbar";
+import FormSnackbar from "../components/FormSnackbar";
 import ChannelDeleteDialog from "../components/ChannelDeleteDialog";
 import {
-  startChannelById,
-  stopChannelById,
-  deleteChannelById,
-} from "../service/apiService";
+  startOutputById,
+  stopOutputById,
+  deleteOutputById, deleteInputById, deleteChannelById,
+} from '../service/apiService';
 import { axiosFetcher } from "../service/apiService";
 
 export default function Index() {
@@ -23,99 +23,110 @@ export default function Index() {
   const [snackOpen, setSnackOpen] = useState(false);
   const [snackMessage, setSnackMessage] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [channelToDelete, setChannelToDelete] = useState({});
+  const [objectToDelete, setObjectToDelete] = useState({});
   const [searchValue, setSearchValue] = useState("");
-  const [filterValue, setFilterValue] = useState("");
   const [filteredChannels, setFilteredChannels] = useState([]);
 
   useEffect(() => {
     setFilteredChannels(
       channels?.filter(
         (channel) =>
-          channel.serviceName
+          channel.name
             .toLowerCase()
-            .includes(searchValue.toLowerCase()) &&
-          channel.outputUrl.startsWith(filterValue)
+            .includes(searchValue.toLowerCase())
       )
     );
-  }, [searchValue, filterValue, channels]);
+  }, [searchValue, channels]);
 
   const handleSearchChange = (e) => {
     setSearchValue(e.target.value);
-  };
-
-  const handleFilterChange = (e) => {
-    setFilterValue(e.target.value);
   };
 
   const handleSnackClose = () => {
     setSnackOpen(false);
   };
 
-  const handleDialogOpen = (id, name) => {
+  const handleDialogOpen = (id, name, type) => {
     setDialogOpen(true);
-    setChannelToDelete({ id, name });
+    setObjectToDelete({ id, name, type });
   };
 
   const handleDialogClose = () => {
     setDialogOpen(false);
-    setChannelToDelete({});
+    setObjectToDelete({});
   };
 
-  const handleChannelStart = (id) => {
-    startChannelById(id).then(() => {
+  const handleOutputStart = (id) => {
+    startOutputById(id).then(() => {
       setSnackMessage("Channel started");
       setSnackOpen(true);
     });
   };
-  const handleChannelStop = (id) => {
-    stopChannelById(id).then(() => {
+
+  const handleOutputStop = (id) => {
+    stopOutputById(id).then(() => {
       setSnackMessage("Channel stopped");
       setSnackOpen(true);
     });
   };
 
   const handleDeleteChannel = () => {
-    deleteChannelById(channelToDelete.id).then(() => handleDialogClose());
+    deleteChannelById(objectToDelete.id).then(() => handleDialogClose());
+  }
+
+  const handleDeleteInput = () => {
+    deleteInputById(objectToDelete.id).then(() => handleDialogClose());
+  }
+
+  const handleDeleteOutput = () => {
+    deleteOutputById(objectToDelete.id).then(() => handleDialogClose());
   };
+
+  const selectDeleteFunction = (type) => {
+    if ( type === "input" ) {
+      return handleDeleteInput;
+    }
+    else if ( type === "output" ) {
+      return handleDeleteOutput;
+    }
+    else {
+      return handleDeleteChannel;
+    }
+  }
 
   if (error) return <Error message="Failed to load data!" />;
   if (!channels) return <Loader />;
 
   return (
     <Container maxWidth="md" sx={{ flexGrow: 1, mt: 2 }}>
-      <ChannelAccordionToolbar
+      <ChannelToolbar
         searchValue={searchValue}
-        filterValue={filterValue}
         handleSearchChange={handleSearchChange}
-        handleFilterChange={handleFilterChange}
       />
       <Paper sx={{ mb: 4 }}>
         {filteredChannels?.map((channel) => (
-          <ChannelAccordion
+          <Channel
             key={channel.id}
             id={channel.id}
-            serviceName={channel.serviceName}
-            bitrate={channel.bitrate}
-            inputUrl={channel.inputUrl}
-            outputUrl={channel.outputUrl}
-            enabled={channel.enabled}
-            startChannel={handleChannelStart}
-            stopChannel={handleChannelStop}
-            openDeleteDialog={handleDialogOpen}
+            name={channel.name}
+            input={channel.input}
+            outputs={channel.outputs}
+            onOutputStart={handleOutputStart}
+            onOutputStop={handleOutputStop}
+            onDelete={handleDialogOpen}
           />
         ))}
       </Paper>
-      <ChannelSnackbar
+      <FormSnackbar
         open={snackOpen}
         message={snackMessage}
         onClose={handleSnackClose}
       />
       <ChannelDeleteDialog
         open={dialogOpen}
-        name={channelToDelete.name}
+        name={objectToDelete.name}
         handleClose={handleDialogClose}
-        handleDelete={handleDeleteChannel}
+        handleDelete={selectDeleteFunction(objectToDelete.type)}
       />
     </Container>
   );
